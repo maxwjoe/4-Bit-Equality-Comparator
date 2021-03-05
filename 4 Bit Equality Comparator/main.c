@@ -17,25 +17,28 @@ uint8_t four_bit_vector_comparator(uint8_t va, uint8_t vb);
 int main() {
 
 	printf("*** TRUTH TABLE (4-Bit Vector Comparator) ***\n");
-	printf("----------------------------------------------\n");
-	printf("|| A0 | A1 | A2 | A3 | B0 | B1 | B2 | B3 | F  |\n");
+	printf("****************************************************\n");
+	printf("|| A0 | A1 | A2 | A3 | B0 | B1 | B2 | B3 || F  ||\n");
+	printf("------------------------------------------------\n");
 	
-	uint8_t vector_shift = 3;
+	uint8_t vector_shift = 4;
 	for (uint8_t i = 0b00000000; i < 0b11111111; i++) {
-		uint8_t a0 = 0b1000000 & i >> 7;
-		uint8_t b0 = 0b00001000 & i >> 3;
-		uint8_t a1 = (0b01000000 & i) >> 6;
+		uint8_t a0 = (0b1000000 & i) >> 3 + vector_shift;
+		uint8_t b0 = (0b00001000 & i) >> 3;
+		uint8_t a1 = (0b01000000 & i) >> 2 + vector_shift;
 		uint8_t b1 = (0b00000100 & i) >> 2;
-		uint8_t a2 = (0b00100000 & i) >> 5;
+		uint8_t a2 = (0b00100000 & i) >> 1 + vector_shift;
 		uint8_t b2 = (0b00000010 & i) >> 1;
-		uint8_t a3 = (0b00010000 & i) >> 4;
+		uint8_t a3 = (0b00010000 & i) >> vector_shift;
 		uint8_t b3 = (0b00000001 & i);
 
-		uint8_t output = four_bit_vector_comparator((0b11110000 & i >> 4), i);
-		printf("|| %d  | %d  | %d  | %d  | %d  | %d  | %d  | %d  | %d  |\n", a0, a1, a2, a3, b0, b1, b2, b3, output);
+		uint8_t output = four_bit_vector_comparator(((0b11110000 & i) >> vector_shift), i);
+		printf("|| %d  | %d  | %d  | %d  | %d  | %d  | %d  | %d  || %d  || INPUT -> %d (Binary) = ", a0, a1, a2, a3, b0, b1, b2, b3, output, i);
+		print_binary(i);
+		printf("------------------------------------------------\n");
 
 	}
-	printf("----------------------------------------------\n");
+	printf("****************************************************\n");
 	return 0;
 }
 
